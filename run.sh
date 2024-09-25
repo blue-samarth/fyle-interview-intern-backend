@@ -14,4 +14,9 @@ export FLASK_APP=core/server.py
 # flask db upgrade -d core/migrations/
 
 # Run server
-gunicorn -c gunicorn_config.py core.server:app
+nohup gunicorn -c gunicorn_config.py core.server:app &
+
+pytest -vvv -s tests/*.py
+# pytest --cov
+pytest --cov=core --cov-report=html
+xdg-open htmlcov/index.html

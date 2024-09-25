@@ -1,0 +1,42 @@
+Here I will be documenting all the changes that I make to the codebase.
+
+as explained, I first went into core/apis/assignments/principal.py and saw it blank so started from there. for referrance used teachers.py and started by importing everything from there since principal also has access to the assignments as well so added them too
+setup the blueprint fro principle and added the decorator security for the same
+while adding the route for listing the submitted assigments I came to know that assignments do not have a fn to retrive all the ones which are submitted so I created one.
+while creating that I came to notice that the last method to retrive assignment for teachers is bugged so there I worked on that too.
+came back to the principal and added the route for listing the submitted assignments.
+Now again went to the teachers.py and added the route for grading the assignments.
+We are done with the principal and teachers so now will add the principal to __init__.py 
+
+Agian while reading the application.md saw that I missed the part where principal has access to all the teachers and can list them too. So went to core/apis/teachers/principal.py and added the route for listing the teachers.
+Now added the principal to __init__.py
+
+Again while reading the application.md saw that principal only can regrade all the assigments while teacher can only grade the ones assigned to them. 
+Made the changes in the mark_grade method to account for this and noticed that the method above for submitting the assignment allows the student to resubmit the assignment so added a check for that too.
+
+checked through all the students requirements and everything seems to be fine and there.
+now for teachers since the bug changes were made in the assigments.py so some routes might need some changes so will do that now.
+
+while checking the core apis just saw that the schema for teachers is missing (lol) so added that too.
+checked how the schema for assigments was laid out used the same base 
+
+Have done all the core stuff will go over tests now
+added the SQL tests as described
+
+Ran the tests and we are failing 2 of them i.e:
+    tests/students_test.py::test_post_assignment_null_content FAILED
+    tests/teachers_test.py::test_grade_assignment_bad_assignment FAILED
+so will work on this now 
+
+made some changes now 3 are failing (lol):
+    FAILED tests/principals_test.py::test_grade_assignment_draft_assignment - assert 200 == 400
+    FAILED tests/students_test.py::test_post_assignment_null_content - assert 200 == 400
+    FAILED tests/SQL/sql_test.py::test_get_grade_A_assignments_for_teacher_with_max_grading - assert 2 == 1
+
+I did not clear the database so yeah now only 1 failure:
+    FAILED tests/students_test.py::test_post_assignment_null_content - assert 200 == 400
+
+FINALLY ALL TESTS PASSED
+
+it turns out that my coverage is around 92% so will work on that now
+core/server.py is covered for only 75% so will work on that now
